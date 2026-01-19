@@ -4,10 +4,10 @@
 
 #include <variant>
 
-#include "ni_interp_view.h"
+#include "view.h"
 
 namespace ni::d1 {
-    template<number Number>
+    template<concepts::num Num>
     class any_view {
     public:
         constexpr any_view(any_view &&) noexcept = default;
@@ -19,26 +19,27 @@ namespace ni::d1 {
 
         constexpr auto operator=(const any_view &) -> any_view & = delete;
 
-        constexpr auto x() const noexcept -> std::span<const Number> {
+        constexpr auto x() const noexcept -> std::span<const Num> {
             return std::visit([](const auto &i) noexcept { return i.x(); }, m_interp);
         }
 
-        constexpr auto y() const noexcept -> std::span<const Number> {
+        constexpr auto y() const noexcept -> std::span<const Num> {
             return std::visit([](const auto &i) noexcept { return i.y(); }, m_interp);
         }
 
     private:
         using var = std::variant<
-            view<method::prev, Number>,
-            view<method::next, Number>,
-            view<method::nearest, Number>,
-            view<method::linear, Number>,
-            view<method::quadratic, Number>,
-            view<method::cubic, Number>
+            view<kind::prev, Num>,
+            view<kind::next, Num>,
+            view<kind::nearest, Num>,
+            view<kind::linear, Num>,
+            view<kind::quadratic, Num>,
+            view<kind::cubic, Num>
         >;
 
         var m_interp;
 
+        // TODO: hides move ctor
         template<typename Interp>
         explicit constexpr any_view(Interp &&interp) : m_interp(std::forward<Interp>(interp)) {
         }

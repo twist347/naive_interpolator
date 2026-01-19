@@ -2,28 +2,28 @@
 
 #include <span>
 
-#include "ni_alg_helper.h"
-#include "../util/ni_concept.h"
+#include "ni/util/concept.h"
+#include "alg_helper.h"
 
 namespace ni::d1::detail {
-    template<number Number>
+    template<concepts::num Num>
     constexpr auto quadratic_formula(
-        Number x0, Number y0,
-        Number x1, Number y1,
-        Number x2, Number y2,
-        Number xq
-    ) noexcept -> Number {
+        Num x0, Num y0,
+        Num x1, Num y1,
+        Num x2, Num y2,
+        Num xq
+    ) noexcept -> Num {
         return y0 * (xq - x1) * (xq - x2) / ((x0 - x1) * (x0 - x2)) +
                y1 * (xq - x0) * (xq - x2) / ((x1 - x0) * (x1 - x2)) +
                y2 * (xq - x0) * (xq - x1) / ((x2 - x0) * (x2 - x1));
     }
 
-    template<number Number>
+    template<concepts::num Num>
     constexpr auto quadratic_eval(
-        std::span<const Number> x,
-        std::span<const Number> y,
-        Number xq
-    ) noexcept -> Number {
+        std::span<const Num> x,
+        std::span<const Num> y,
+        Num xq
+    ) noexcept -> Num {
         const auto n = x.size();
         const auto idx = lower_idx(x, xq);
 
