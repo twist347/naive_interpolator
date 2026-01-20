@@ -8,6 +8,10 @@
 #include "base.h"
 
 namespace ni::d1 {
+    // forward decl for friendship
+    template<kind K, concepts::num Num, typename Allocator>
+    class owner;
+
     template<kind K, concepts::num Num>
     class view : public detail::base<view<K, Num>, K, Num> {
     public:
@@ -21,6 +25,9 @@ namespace ni::d1 {
 
     private:
         using base = detail::base<view, K, Num>;
+
+        template<kind KK, concepts::num NN, typename Alloc>
+        friend class owner;
 
         // friend external factories
         template<kind KK, typename RX, typename RY>

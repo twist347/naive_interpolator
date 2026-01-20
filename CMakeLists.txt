@@ -15,4 +15,10 @@ target_include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-add_subdirectory(test)
+option(BUILD_TESTS "Build unit tests (requires GTest)" ON)
+
+if (BUILD_TESTS)
+    enable_testing()
+    find_package(GTest REQUIRED)
+    add_subdirectory(test)
+endif ()

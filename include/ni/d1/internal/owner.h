@@ -9,6 +9,9 @@
 
 #include "base.h"
 
+// for as_view()
+#include "view.h"
+
 namespace ni::d1 {
     template<kind K, concepts::num Num, typename Allocator = std::allocator<Num> >
     class owner : public detail::base<owner<K, Num, Allocator>, K, Num> {
@@ -31,8 +34,9 @@ namespace ni::d1 {
         constexpr auto x() const noexcept -> std::span<const Num> { return m_x; }
         constexpr auto y() const noexcept -> std::span<const Num> { return m_y; }
 
-        // TODO: impl
-        // constexpr auto as_view() const noexcept -> view<K, Num> { return view<K, Num>{x(), y()}; }
+        // NOTE: returns a non-owning view over this owner's storage.
+        // call on objects created by factories only
+        constexpr auto as_view() const noexcept -> view<K, Num> { return view<K, Num>{x(), y()}; }
 
     private:
         using base = detail::base<owner, K, Num>;

@@ -32,6 +32,9 @@ namespace ni::d1 {
 }
 
 namespace ni::d1::detail {
+    template<typename ...>
+    inline constexpr bool dependent_false_v = false;
+
     template<typename Derived, kind K, concepts::num Num>
     class base {
     private:
@@ -49,7 +52,7 @@ namespace ni::d1::detail {
             } else if constexpr (K == kind::cubic) {
                 return 4;
             } else {
-                static_assert(false);
+                static_assert(dependent_false_v<Derived>, "Unsupported interpolation kind");
                 return 0;
             }
         }

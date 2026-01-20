@@ -56,7 +56,7 @@ namespace ni::log {
             std::fputs(message.c_str(), out);
             std::fputc('\n', out);
         } catch (...) {
-            std::fputs("[LOG]: formatting failed", stderr);
+            std::fputs("[LOG]: formatting failed\n", stderr);
         }
 
         if (lvl == level::fatal) {
